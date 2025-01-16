@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: com.smurfitwestrock.mdg.mandattch
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: MDD-505-DESTINATION-DEV_ONLY
+          url: http://mdddevonly.group.wan:8422/
+          client: '505'
+        app:
+          name: ZMANDATTCH
+          description: Mdg Partner Mandatory Attachments
+          package: ZMDG_EXT
+          transport: MDDK900059
+        exclude:
+          - /test/

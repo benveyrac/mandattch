@@ -1,0 +1,98 @@
+<mvc:View controllerName="com.smurfitwestrock.mdg.mandattch.controller.Report" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+    xmlns:table="sap.ui.table" xmlns:smarttable="sap.ui.comp.smarttable"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar" xmlns:f="sap.f" xmlns:core="sap.ui.core">
+    <f:DynamicPage showFooter="true">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title id="title" text="{i18n>title}" />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="pageHeader" pinnable="true">
+                <smartfilterbar:SmartFilterBar id="smartFilterBar" entitySet="ZC_PART_MNG_ATTACH"
+                    persistencyKey="SmartFilterBarKey" showFilterConfiguration="false"
+                    useProvidedNavigationProperties="true" showClearOnFB="true" filterBarExpanded="true"
+                    useToolbar="false" useDateRangeType="true">
+                </smartfilterbar:SmartFilterBar>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smarttable:SmartTable entitySet="ZC_PART_MNG_ATTACH" smartFilterId="smartFilterBar" useVariantManagement="true"
+                persistencyKey="SmartFilterBarKey" enableAutoBinding="true" enableExport="false" showRowCount="true"
+                header="{i18n>tab.tit}" enableAutoColumnWidth="true" fitContainer="true"
+                requestAtLeastFields="MDChgProcessSrceObject">
+                <table:Table selectionMode="None" alternateRowColors="true" rowActionCount="1">
+                    <table:rowActionTemplate>
+                        <table:RowAction>
+                            <table:RowActionItem type="Navigation" press="onPartner" />
+                        </table:RowAction>
+                    </table:rowActionTemplate>
+                    <table:columns>
+                        <table:Column>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                    value='\{"columnKey": "MasterDataChangeProcess", "leadingProperty": "MasterDataChangeProcess", "sortProperty": "MasterDataChangeProcess"}' />
+                            </table:customData>
+                            <Label text="{i18n>tab.id}" wrapping="true" />
+                            <table:template>
+                                <ObjectIdentifier title="{MasterDataChangeProcess}" />
+                            </table:template>
+                        </table:Column>
+                        <table:Column>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                    value='\{"columnKey": "BuNumber", "leadingProperty": "BuNumber", "sortProperty": "BuNumber"}' />
+                            </table:customData>
+                            <Label text="{i18n>tab.bunum}" wrapping="true" />
+                            <table:template>
+                                <Label text="{BuNumber}" />
+                            </table:template>
+                        </table:Column>
+                        <table:Column>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                    value='\{"columnKey": "BuCategory", "leadingProperty": "BuCategory", "sortProperty": "BuCategory"}' />
+                            </table:customData>
+                            <Label text="{i18n>tab.type}" wrapping="true" />
+                            <table:template>
+                                <Label text="{BuCategory}" />
+                            </table:template>
+                        </table:Column>
+                        <table:Column>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                    value='\{"columnKey": "NameLast", "leadingProperty": "NameLast", "sortProperty": "NameLast"}' />
+                            </table:customData>
+                            <Label text="{i18n>tab.namelast}" wrapping="true" />
+                            <table:template>
+                                <Label text="{NameLast}" />
+                            </table:template>
+                        </table:Column>
+                        <table:Column>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                    value='\{"columnKey": "NameFirst", "leadingProperty": "NameFirst", "sortProperty": "NameFirst"}' />
+                            </table:customData>
+                            <Label text="{i18n>tab.namefirst}" wrapping="true" />
+                            <table:template>
+                                <Label text="{NameFirst}" />
+                            </table:template>
+                        </table:Column>
+                        <table:Column>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                    value='\{"columnKey": "NameOrg1", "leadingProperty": "NameOrg1", "sortProperty": "NameOrg1"}' />
+                            </table:customData>
+                            <Label text="{i18n>tab.nameorg}" wrapping="true" />
+                            <table:template>
+                                <Label text="{NameFirst}" />
+                            </table:template>
+                        </table:Column>
+                    </table:columns>
+                </table:Table>
+            </smarttable:SmartTable>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

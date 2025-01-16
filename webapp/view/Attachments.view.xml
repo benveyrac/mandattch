@@ -1,0 +1,44 @@
+<mvc:View controllerName="com.smurfitwestrock.mdg.mandattch.controller.Attachments" xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m.upload" xmlns:core='sap.ui.core' xmlns:m='sap.m'>
+    <m:Page id="page" title="{i18n>det.tit}" showNavButton="true" navButtonPress="onNavBack">
+        <m:ObjectHeader responsive="false" intro="{BuCategory}" title="{i18n>det.id} {MasterDataChangeProcess}"
+            backgroundDesign="Translucent" class="sapUiResponsivePadding--header sapUiMediumMarginBeginEnd">
+            <m:ObjectAttribute title="{i18n>det.namelast}" text="{NameLast}" />
+            <m:ObjectAttribute title="{i18n>det.namefirst}" text="{NameFirst}" />
+            <m:ObjectAttribute title="{i18n>det.nameorg}" text="{NameOrg1}" />
+            <m:statuses>
+                <m:ObjectStatus inverted="true" title="{i18n>det.bunum}" text="Incomplete" icon="sap-icon://alert"
+                    state="Error" />
+                <m:ObjectStatus inverted="true" title="{i18n>det.bunum}" text="Completed" icon="sap-icon://sys-enter-2"
+                    state="Success" />
+            </m:statuses>
+        </m:ObjectHeader>
+        <m:content>
+            <UploadSet id="UploadSet" instantUpload="true" showIcons="true" uploadEnabled="false" multiple="false"
+                mode="Delete" beforeUploadStarts="onBeforeUploadStartsExt" uploadCompleted="onUploadCompletedExt"
+                afterItemRemoved="onAfterRemoveFileExt"
+                items="{path: 'to_Attachment'}"
+                uploadUrl="/sap/opu/odata/sap/ZMDG_DATA_SRV/FileSet"
+                class="sapUiMediumMarginBeginEnd">
+                 <!-- , events: { change: '_onFilesReceived' } -->
+                <toolbar>
+                    <m:OverflowToolbar id="UpSetToolBar.ext">
+                        <m:Title id="UpSetTit.ext" text="{i18n>det.tit}" level="H2" />
+                        <m:ToolbarSpacer id="UpSetSpacer.ext" />
+                        <m:ComboBox id="ComboType.ext" items="{path: '/FileTypeSet'}" change="onSelectTypeExt">
+                            <core:Item id="ComboItem.ext" key="{Type}" text="{Description}" />
+                        </m:ComboBox>
+                    </m:OverflowToolbar>
+                </toolbar>
+                <items>
+                    <UploadSetItem id="UpSetItem.ext" fileName="{Filename}" mediaType="{Mimetype}" enabledEdit="false"
+                        visibleEdit="false" url="{Filename}" openPressed="onFilePressed">
+                        <statuses>
+                            <m:ObjectStatus id="UpSetStatus.ext" title="{Type}" text="{TypeDesc}" />
+                        </statuses>
+                    </UploadSetItem>
+                </items>
+            </UploadSet>
+        </m:content>
+    </m:Page>
+</mvc:View>

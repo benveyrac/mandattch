@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HTML5',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.HTML5.v1" Alias="HTML5"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../../sap/zmdg_data_srv/$metadata">
+        <edmx:Include Namespace="ZMDG_DATA_SRV" Alias="SAP"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="zmdg_data_anno_mdl.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="ZMDG_DATA_SRV.I_CostCenterVHType/ControllingArea">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.I_CostCenterVHType/CostCenterResponsibilityArea">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.I_TaxCodeType/TaxCategory">
+                <Annotation Term="UI.HiddenFilter"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PARTNER_MDGType/MDChgProcessSrceObject">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PARTNER_MDGType/BuSort1">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PARTNER_MDGType/BuSort2">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PARTNER_MDGType">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Process Id"/>
+                            <PropertyValue Property="Value" Path="MasterDataChangeProcess"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Partner Num."/>
+                            <PropertyValue Property="Value" Path="BuNumber"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Category"/>
+                            <PropertyValue Property="Value" Path="BuCategory"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Last Name"/>
+                            <PropertyValue Property="Value" Path="NameLast"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="First Name"/>
+                            <PropertyValue Property="Value" Path="NameFirst"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Org. Name"/>
+                            <PropertyValue Property="Value" Path="NameOrg1"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>MasterDataChangeProcess</PropertyPath>
+                        <PropertyPath>BuNumber</PropertyPath>
+                        <PropertyPath>BuCategory</PropertyPath>
+                        <PropertyPath>NameLast</PropertyPath>
+                        <PropertyPath>NameFirst</PropertyPath>
+                        <PropertyPath>NameOrg1</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PART_MNG_ATTACHType/MDChgProcessSrceObject">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PART_MNG_ATTACHType/BuSort1">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PART_MNG_ATTACHType/BuSort2">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.ZC_PART_MNG_ATTACHType">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Process Id"/>
+                            <PropertyValue Property="Value" Path="MasterDataChangeProcess"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Partner Num."/>
+                            <PropertyValue Property="Value" Path="BuNumber"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Category"/>
+                            <PropertyValue Property="Value" Path="BuCategory"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Last Name"/>
+                            <PropertyValue Property="Value" Path="NameLast"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="First Name"/>
+                            <PropertyValue Property="Value" Path="NameFirst"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Org. Name"/>
+                            <PropertyValue Property="Value" Path="NameOrg1"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>MasterDataChangeProcess</PropertyPath>
+                        <PropertyPath>BuNumber</PropertyPath>
+                        <PropertyPath>BuCategory</PropertyPath>
+                        <PropertyPath>NameLast</PropertyPath>
+                        <PropertyPath>NameFirst</PropertyPath>
+                        <PropertyPath>NameOrg1</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
