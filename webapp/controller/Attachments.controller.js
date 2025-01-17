@@ -1,15 +1,20 @@
 sap.ui.define([
     "com/smurfitwestrock/mdg/mandattch/controller/BaseController",
-], (BaseController) => {
+    "com/smurfitwestrock/mdg/mandattch/libs/formatter",
+], (BaseController, formatter) => {
     "use strict";
 
     return BaseController.extend("com.smurfitwestrock.mdg.mandattch.controller.Report", {
+        formatter: formatter,
+
         onInit() {
             this.getView().unbindObject();
             this.getRouter().getRoute("RouteAttach").attachMatched(this._onRouteDetail, this);
         },
 
         _onRouteDetail(oEvent) {
+            this.getView().setModel(this.getModel(), 'MdtStatus');
+
             let oProcessId = oEvent.getParameter("arguments").MDChgProcessSrceObject;
             if (oProcessId) {
                 this.getView().setBusy(true);
@@ -27,13 +32,40 @@ sap.ui.define([
                                 this.getView().setBusy(false);
                             },
                             dataReceived: (oDataReceived) => {
-                                // this._onFilesReceived();
-                                // this.getViewModel("Batch").setData(oDataReceived.getParameter('data'));
+                                let oData = oDataReceived.getParameter('data');
+                                this.fillMdtAttachStatus(oData.MDChgProcessSrceObject, oData.MasterDataChangeProcess);
                             }
                         }
                     });
                 });
             }
+        },
+
+
+        fillMdtAttachStatus: function (SourceId, ProcessId) {
+            if (SourceId) {
+                this.getView().setBusy(true);
+
+                this.getModel().metadataLoaded().then(() => {
+                    let sKey = this.getModel().createKey("/MdtAttachStatusSet", {
+                        SourceId: SourceId,
+                        ProcessId: ProcessId                        
+                    });
+                    this.getModel().invalidateEntry(sKey);
+
+                    this.getView().bindObject({
+                        path: sKey,
+                        model: 'MdtStatus',
+                        events: {
+                            change: (oData) => {
+                                this.getView().setBusy(false);
+                            },
+                            dataReceived: (oDataReceived) => {},
+                        }
+                    });
+                });
+            }
+
         },
 
         // Sélection d'un type de document

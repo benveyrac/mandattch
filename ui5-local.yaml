@@ -32,7 +32,7 @@ server:
         backend:
           - scp: true
             path: /sap
-            url: http://mdddevonly.group.wan:8422/
+            url: http://mdd.group.wan:7349/
             destination: MDD-605_BVEYRAC
             client: '605'
             authenticationType: BasicAuthentication
