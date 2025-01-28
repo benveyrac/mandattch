@@ -1,12 +1,11 @@
 <mvc:View controllerName="com.smurfitwestrock.mdg.mandattch.controller.Attachments" xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m.upload" xmlns:core='sap.ui.core' xmlns:m='sap.m'>
     <m:Page id="page" title="{i18n>det.tit}" showNavButton="true" navButtonPress="onNavBack">
-
-        <m:ObjectHeader responsive="false" intro="{BuCategory}" title="{i18n>det.id} {MasterDataChangeProcess}"
-            backgroundDesign="Translucent" class="sapUiResponsivePadding--header sapUiMediumMarginBeginEnd">
-            <m:ObjectAttribute title="{i18n>det.namelast}" text="{NameLast}" />
-            <m:ObjectAttribute title="{i18n>det.namefirst}" text="{NameFirst}" />
-            <m:ObjectAttribute title="{i18n>det.nameorg}" text="{NameOrg1}" />
+        <m:ObjectHeader responsive="true" intro="{BusinessPartnerCategoryText}"
+            title="{i18n>det.id} {MasterDataChangeProcess}" backgroundDesign="Translucent" condensed="true"
+            class="sapUiResponsivePadding--header sapUiMediumMarginBeginEnd">
+            <m:ObjectAttribute title="{i18n>det.name}"
+                text="{ parts:[{path:'NameOrg1'},{path:'NameLast'},{path:'NameFirst'}], formatter: '.formatter.setBPName' }" />
             <m:statuses>
                 <m:ObjectStatus inverted="true" title="{i18n>tab.status}"
                     text="{ parts:[{path:'MdtStatus>Status'}], formatter: '.formatter.setStatusText' }"
@@ -15,19 +14,18 @@
             </m:statuses>
         </m:ObjectHeader>
         <m:content>
-            <m:HBox width="100%">
-                <m:VBox width="10%">
-                    <m:List headerText="" headerLevel="H2" items="{path: 'MdtStatus>MdtAttachListSet'}">
+            <m:HBox width="100%" class="sapUiMediumMarginTop">
+                <m:VBox width="30%" class="sapUiMediumMarginBeginEnd">
+                    <m:List headerText="{i18n>mdt.tit}" headerLevel="H5" items="{path: 'MdtStatus>MdtAttachListSet'}">
                         <m:StandardListItem title="{MdtStatus>Description}" />
                     </m:List>
                 </m:VBox>
-                <m:VBox width="70%">
+                <m:VBox width="50%" class="sapUiMediumMarginBeginEnd">
                     <UploadSet id="UploadSet" instantUpload="true" showIcons="true" uploadEnabled="false"
                         multiple="false" mode="Delete" beforeUploadStarts="onBeforeUploadStartsExt"
                         uploadCompleted="onUploadCompletedExt" afterItemRemoved="onAfterRemoveFileExt"
                         items="{path: 'to_Attachment'}" uploadUrl="/sap/opu/odata/sap/ZMDG_DATA_SRV/FileSet"
                         class="sapUiMediumMarginBeginEnd">
-                        <!-- , events: { change: '_onFilesReceived' } -->
                         <toolbar>
                             <m:OverflowToolbar id="UpSetToolBar.ext">
                                 <m:Title id="UpSetTit.ext" text="{i18n>det.tit}" level="H2" />
@@ -48,7 +46,12 @@
                     </UploadSet>
                 </m:VBox>
             </m:HBox>
-
         </m:content>
+        <m:footer>
+            <m:Toolbar>
+                <m:Button icon="sap-icon://message-popup" press="handleMessagePopoverPress"
+                    type="{= (${message>/}.length > 0 ? 'Negative':'Default')}" text="{=${message>/}.length}" />
+            </m:Toolbar>
+        </m:footer>
     </m:Page>
 </mvc:View>

@@ -57,7 +57,7 @@
                             </table:customData>
                             <Label text="{i18n>tab.type}" wrapping="true" />
                             <table:template>
-                                <Label text="{BuCategory}" />
+                                <Label text="{BusinessPartnerCategoryText}" />
                             </table:template>
                         </table:Column>
                         <table:Column>

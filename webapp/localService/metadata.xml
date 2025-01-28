@@ -125,6 +125,13 @@
                 <Property Name="BusinessArea" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="BusinessArea_Text" sap:label="Business Area"/>
                 <Property Name="BusinessArea_Text" Type="Edm.String" MaxLength="30" sap:label="Business Area Name" sap:creatable="false" sap:updatable="false"/>
             </EntityType>
+            <EntityType Name="I_BusPartCategoryType" sap:label="Business Partner Category" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BusinessPartnerCategory"/>
+                </Key>
+                <Property Name="BusinessPartnerCategory" Type="Edm.String" Nullable="false" MaxLength="1" sap:display-format="UpperCase" sap:text="BusinessPartnerCategory_Text" sap:label="Category" sap:quickinfo="Business Partner Category"/>
+                <Property Name="BusinessPartnerCategory_Text" Type="Edm.String" MaxLength="60" sap:label="Business Partner Category Description" sap:quickinfo="Short Text for Fixed Values" sap:creatable="false" sap:updatable="false"/>
+            </EntityType>
             <EntityType Name="I_ChartOfAccountsStdVHType" sap:label="Chart Of Accounts" sap:value-list="true" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="ChartOfAccounts"/>
@@ -408,7 +415,8 @@
                 <Property Name="MDChgProcessSrceObject" Type="Edm.String" Nullable="false" MaxLength="60" sap:label="Source ID" sap:quickinfo="Master Data Consolidation: ID of a Source Objects"/>
                 <Property Name="MasterDataChangeProcess" Type="Edm.String" MaxLength="12" sap:display-format="NonNegative" sap:label="Process Search Help" sap:quickinfo="Master Data Change Process Identifier" sap:value-list="standard"/>
                 <Property Name="BuNumber" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Partner Number Search Help" sap:quickinfo="Business Partner Number" sap:value-list="standard"/>
-                <Property Name="BuCategory" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Category Search Help" sap:quickinfo="Business Partner Category" sap:value-list="standard"/>
+                <Property Name="BuCategory" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Category Search Help" sap:quickinfo="Business Partner Category" sap:value-list="fixed-values"/>
+                <Property Name="BusinessPartnerCategoryText" Type="Edm.String" MaxLength="60" sap:label="Short Description" sap:quickinfo="Short Text for Fixed Values"/>
                 <Property Name="BuSort1" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="Search Term 1" sap:quickinfo="Search Term 1 for Business Partner"/>
                 <Property Name="BuSort2" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="Search Term 2" sap:quickinfo="Search Term 2 for Business Partner"/>
                 <Property Name="NameLast" Type="Edm.String" MaxLength="40" sap:label="Last Name Search Help" sap:quickinfo="Last Name of Business Partner (Person)" sap:value-list="standard"/>
@@ -546,12 +554,12 @@
                 <End Type="ZMDG_DATA_SRV.MdtAttachList" Multiplicity="*" Role="ToRole_GetMdtAttach"/>
                 <ReferentialConstraint>
                     <Principal Role="FromRole_GetMdtAttach">
-                        <PropertyRef Name="ProcessId"/>
                         <PropertyRef Name="SourceId"/>
+                        <PropertyRef Name="ProcessId"/>
                     </Principal>
                     <Dependent Role="ToRole_GetMdtAttach">
-                        <PropertyRef Name="ProcessId"/>
                         <PropertyRef Name="SourceId"/>
+                        <PropertyRef Name="ProcessId"/>
                     </Dependent>
                 </ReferentialConstraint>
             </Association>
@@ -561,6 +569,7 @@
             </Association>
             <EntityContainer Name="ZMDG_DATA_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="I_BusinessArea" EntityType="ZMDG_DATA_SRV.I_BusinessAreaType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="I_BusPartCategory" EntityType="ZMDG_DATA_SRV.I_BusPartCategoryType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
                 <EntitySet Name="I_ChartOfAccountsStdVH" EntityType="ZMDG_DATA_SRV.I_ChartOfAccountsStdVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
                 <EntitySet Name="I_CompanyCodeStdVH" EntityType="ZMDG_DATA_SRV.I_CompanyCodeStdVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
                 <EntitySet Name="I_CompanyCodeVH" EntityType="ZMDG_DATA_SRV.I_CompanyCodeVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
@@ -1400,6 +1409,9 @@
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
                                 </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1432,6 +1444,9 @@
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
                                 </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1440,34 +1455,26 @@
             <Annotations Target="ZMDG_DATA_SRV.ZC_PARTNER_MDGType/BuCategory" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <Annotation Term="Common.ValueList">
                     <Record>
-                        <PropertyValue Property="Label" String="Partner CDS View for extension"/>
-                        <PropertyValue Property="CollectionPath" String="ZC_PARTNER_MDG"/>
+                        <PropertyValue Property="Label" String="Business Partner Category"/>
+                        <PropertyValue Property="CollectionPath" String="I_BusPartCategory"/>
                         <PropertyValue Property="SearchSupported" Bool="false"/>
                         <PropertyValue Property="Parameters">
                             <Collection>
-                                <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="MasterDataChangeProcess"/>
-                                </Record>
-                                <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="BuNumber"/>
-                                </Record>
                                 <Record Type="Common.ValueListParameterInOut">
                                     <PropertyValue Property="LocalDataProperty" PropertyPath="BuCategory"/>
-                                    <PropertyValue Property="ValueListProperty" String="BuCategory"/>
+                                    <PropertyValue Property="ValueListProperty" String="DomainValue"/>
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="NameLast"/>
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategory"/>
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="NameFirst"/>
-                                </Record>
-                                <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategory_Text"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
+                <Annotation Term="Common.ValueListWithFixedValues"/>
             </Annotations>
             <Annotations Target="ZMDG_DATA_SRV.ZC_PARTNER_MDGType/NameLast" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <Annotation Term="Common.ValueList">
@@ -1495,6 +1502,9 @@
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
@@ -1528,6 +1538,9 @@
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
                                 </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1559,6 +1572,9 @@
                                 <Record Type="Common.ValueListParameterInOut">
                                     <PropertyValue Property="LocalDataProperty" PropertyPath="NameOrg1"/>
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
@@ -1592,6 +1608,9 @@
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
                                 </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1623,6 +1642,9 @@
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
@@ -1656,6 +1678,9 @@
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
                                 </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1687,6 +1712,9 @@
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
@@ -1720,6 +1748,9 @@
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
                                 </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1751,6 +1782,9 @@
                                 <Record Type="Common.ValueListParameterInOut">
                                     <PropertyValue Property="LocalDataProperty" PropertyPath="NameOrg1"/>
                                     <PropertyValue Property="ValueListProperty" String="NameOrg1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerCategoryText"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
@@ -2465,6 +2499,13 @@
                                 </Record>
                             </Collection>
                         </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZMDG_DATA_SRV.I_BusPartCategoryType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.SAPObjectNodeType">
+                    <Record>
+                        <PropertyValue Property="Name" String="BusinessPartnerCategory"/>
                     </Record>
                 </Annotation>
             </Annotations>

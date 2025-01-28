@@ -5,6 +5,11 @@ sap.ui.define([
 
     return BaseController.extend("com.smurfitwestrock.mdg.mandattch.controller.Report", {
         onInit() {
+            this.getRouter().getRoute("RouteReport").attachMatched(this._onRouteReport, this);
+        },
+
+        _onRouteReport() {
+
         },
 
         onPartner(oEvent) {

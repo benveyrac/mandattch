@@ -26,6 +26,9 @@
     </edmx:Reference>
     <edmx:DataServices>
         <Schema Namespace="zmdg_data_anno_mdl.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="ZMDG_DATA_SRV.I_BusPartCategoryType/BusinessPartnerCategory">
+                <Annotation Term="UI.HiddenFilter"/>
+            </Annotations>
             <Annotations Target="ZMDG_DATA_SRV.I_CostCenterVHType/ControllingArea">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>

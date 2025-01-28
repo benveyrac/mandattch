@@ -38,7 +38,16 @@ sap.ui.define([], function () {
                     break;
             }
             return vState;
-        }
+        },
 
+        setBPName: function (NameLast, NameFirst, NameOrg1) {
+            var vName;
+            if (NameOrg1) {
+                vName = NameOrg1;
+            } else {
+                vName = NameFirst + ' ' + NameLast;
+            }
+            return vName;
+        }        
     };
 });

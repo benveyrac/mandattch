@@ -149,6 +149,7 @@ sap.ui.define([
                 oItem.removeAllStatuses();
             } else {
                 this.byId("UploadSet").getModel().refresh();
+                this.getView().getModel("MdtStatus").refresh();
                 this.ComboType.setSelectedKey();
             }
         },
@@ -156,7 +157,7 @@ sap.ui.define([
         // Suppression d'un fichier #Attachment en attente d'ajout ou déjà ajouté.
         onAfterRemoveFileExt(oEvent) {
             // const sPath = oEvent.getParameter('item').getBindingContext('ZC_PARTNER_MDG').getPath() + "/$value";
-            const sPath = oEvent.getParameter('item').getBindingContext('ZC_PARTNER_MDG').getPath();
+            const sPath = oEvent.getParameter('item').getBindingContext().getPath();
 
             this.getModel().remove(sPath, {
                 success: function (oData) {},
