@@ -34,9 +34,9 @@
         <Schema Namespace="ZMDG_DATA_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
             <EntityType Name="File" m:HasStream="true" sap:content-version="1">
                 <Key>
-                    <PropertyRef Name="ProcessId"/>
                     <PropertyRef Name="SourceId"/>
                     <PropertyRef Name="Filename"/>
+                    <PropertyRef Name="Type"/>
                 </Key>
                 <Property Name="ProcessId" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="SourceId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Source ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
@@ -66,12 +66,13 @@
                     <PropertyRef Name="Request_id"/>
                 </Key>
                 <Property Name="Request_id" Type="Edm.Int64" Nullable="false" sap:unicode="false" sap:label="Request id" sap:sortable="false"/>
+                <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="200" sap:unicode="false" sap:label="Email" sap:sortable="false"/>
             </EntityType>
             <EntityType Name="WF_START_SUPPLIER" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Request_id"/>
                 </Key>
-                <Property Name="Request_id" Type="Edm.Int64" Nullable="false" sap:unicode="false" sap:label="Request id" sap:sortable="false"/>
+                <Property Name="Request_id" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Request id" sap:sortable="false"/>
                 <Property Name="Partner" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Partner" sap:sortable="false"/>
                 <Property Name="Final_User_Group_requester" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Final User group of the requester" sap:sortable="false"/>
                 <Property Name="User_Group_requester" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="User group of the requester" sap:sortable="false"/>
@@ -117,6 +118,30 @@
                 <Property Name="SourceId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Source ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Result status" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <NavigationProperty Name="MdtAttachListSet" Relationship="ZMDG_DATA_SRV.GetMdtAttach" FromRole="FromRole_GetMdtAttach" ToRole="ToRole_GetMdtAttach"/>
+            </EntityType>
+            <EntityType Name="MdgMdtAttachList" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ProcessId"/>
+                    <PropertyRef Name="SourceId"/>
+                    <PropertyRef Name="Type"/>
+                    <PropertyRef Name="Action"/>
+                    <PropertyRef Name="Sensitive"/>
+                </Key>
+                <Property Name="ProcessId" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SourceId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Source ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.Byte" Nullable="false" sap:unicode="false" sap:label="MDG File type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Explanation" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Action" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Sensitive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Checkbox" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="MdgMdtAttach" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ProcessId"/>
+                    <PropertyRef Name="SourceId"/>
+                </Key>
+                <Property Name="ProcessId" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SourceId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Source ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="MdgMdtAttachListSet" Relationship="ZMDG_DATA_SRV.getMdgMdtAttach" FromRole="FromRole_getMdgMdtAttach" ToRole="ToRole_getMdgMdtAttach"/>
             </EntityType>
             <EntityType Name="I_BusinessAreaType" sap:label="Business Area" sap:content-version="1">
                 <Key>
@@ -356,7 +381,7 @@
                     <PropertyRef Name="BankType"/>
                 </Key>
                 <Property Name="MDChgProcessSrceObject" Type="Edm.String" Nullable="false" MaxLength="60" sap:label="Source ID" sap:quickinfo="Master Data Consolidation: ID of a Source Objects"/>
-                <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:filter-restriction="single-value" sap:label="Company Code" sap:value-list="standard"/>
+                <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:filter-restriction="single-value" sap:required-in-filter="false" sap:label="Company Code" sap:value-list="standard"/>
                 <Property Name="ProfitCenter" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:filter-restriction="single-value" sap:label="Profit Center" sap:value-list="standard"/>
                 <Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5" sap:display-format="UpperCase" sap:filter-restriction="single-value" sap:label="Currency" sap:quickinfo="Currency Key" sap:value-list="standard" sap:semantics="currency-code"/>
                 <Property Name="BankType" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:required-in-filter="true" sap:label="Part.bank type" sap:quickinfo="Partner bank type"/>
@@ -392,6 +417,7 @@
                 <Property Name="Mimetype" Type="Edm.String" MaxLength="128" sap:label="MIME type" sap:quickinfo="HTML content type"/>
                 <Property Name="Content" Type="Edm.Binary" sap:label="Binary String" sap:quickinfo="XString"/>
                 <Property Name="TypeDesc" Type="Edm.String" MaxLength="50" sap:label="Description" sap:quickinfo="Text Field"/>
+                <Property Name="CdagUpd" Type="Edm.Boolean" sap:label="Checkbox" sap:heading=""/>
             </EntityType>
             <EntityType Name="ZC_MDG_OUT_MAIL_PRCType" sap:label="View Output Mail Document" sap:content-version="1">
                 <Key>
@@ -529,6 +555,20 @@
                 <End Type="ZMDG_DATA_SRV.ZC_PARTNER_MDG_DFTType" Multiplicity="1" Role="FromRole_assoc_CE202A5830921A5CDB90B17E50391FF2"/>
                 <End Type="ZMDG_DATA_SRV.ZC_READSOFT_ACCT_PRCType" Multiplicity="*" Role="ToRole_assoc_CE202A5830921A5CDB90B17E50391FF2"/>
             </Association>
+            <Association Name="getMdgMdtAttach" sap:content-version="1">
+                <End Type="ZMDG_DATA_SRV.MdgMdtAttach" Multiplicity="1" Role="FromRole_getMdgMdtAttach"/>
+                <End Type="ZMDG_DATA_SRV.MdgMdtAttachList" Multiplicity="*" Role="ToRole_getMdgMdtAttach"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_getMdgMdtAttach">
+                        <PropertyRef Name="ProcessId"/>
+                        <PropertyRef Name="SourceId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_getMdgMdtAttach">
+                        <PropertyRef Name="ProcessId"/>
+                        <PropertyRef Name="SourceId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
             <Association Name="assoc_1FC6AC12179A9CB5328268216C45EC1D" sap:content-version="1">
                 <End Type="ZMDG_DATA_SRV.ZC_PARTNER_MDGType" Multiplicity="1" Role="FromRole_assoc_1FC6AC12179A9CB5328268216C45EC1D"/>
                 <End Type="ZMDG_DATA_SRV.ZC_MDG_FILES_ATTCHType" Multiplicity="*" Role="ToRole_assoc_1FC6AC12179A9CB5328268216C45EC1D"/>
@@ -601,6 +641,8 @@
                 <EntitySet Name="WF_START_SUPPLIER" EntityType="ZMDG_DATA_SRV.WF_START_SUPPLIER" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="MdtAttachListSet" EntityType="ZMDG_DATA_SRV.MdtAttachList" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="MdtAttachStatusSet" EntityType="ZMDG_DATA_SRV.MdtAttachStatus" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="MdgMdtAttachListSet" EntityType="ZMDG_DATA_SRV.MdgMdtAttachList" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="MdgMdtAttachSet" EntityType="ZMDG_DATA_SRV.MdgMdtAttach" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <AssociationSet Name="assoc_308936B560F623C04F6F74AC98453334" Association="ZMDG_DATA_SRV.assoc_308936B560F623C04F6F74AC98453334" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="ZC_PARTNER_MDG" Role="FromRole_assoc_308936B560F623C04F6F74AC98453334"/>
                     <End EntitySet="ZC_MDG_OUT_MAIL_PRC" Role="ToRole_assoc_308936B560F623C04F6F74AC98453334"/>
@@ -616,6 +658,10 @@
                 <AssociationSet Name="assoc_AE48015A385EB93C792653787F0743FD" Association="ZMDG_DATA_SRV.assoc_AE48015A385EB93C792653787F0743FD" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="ZC_PART_MNG_ATTACH" Role="FromRole_assoc_AE48015A385EB93C792653787F0743FD"/>
                     <End EntitySet="ZC_MDG_FILES_ATTCH" Role="ToRole_assoc_AE48015A385EB93C792653787F0743FD"/>
+                </AssociationSet>
+                <AssociationSet Name="getMdgMdtAttachSet" Association="ZMDG_DATA_SRV.getMdgMdtAttach" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="MdgMdtAttachSet" Role="FromRole_getMdgMdtAttach"/>
+                    <End EntitySet="MdgMdtAttachListSet" Role="ToRole_getMdgMdtAttach"/>
                 </AssociationSet>
                 <AssociationSet Name="assoc_3CC7A7BD4E6CCDB9A92F2BC27FBCC57E" Association="ZMDG_DATA_SRV.assoc_3CC7A7BD4E6CCDB9A92F2BC27FBCC57E" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="ZC_PARTNER_MDG_DFT" Role="FromRole_assoc_3CC7A7BD4E6CCDB9A92F2BC27FBCC57E"/>

@@ -45,13 +45,13 @@ sap.ui.define([
         },
 
         onNavBack: function () {
-            // var oPrev = History.getInstance().getPreviousHash();
-            // if (oPrev !== undefined) {
-            //     window.history.go(-1);
-            // } else {
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("RouteReport", true);
-            // }
+            var oPrev = History.getInstance().getPreviousHash();
+            if (oPrev !== undefined) {
+                window.history.go(-1);
+            } else {
+                var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+                oRouter.navTo("RouteReport", true);
+            }
         },
 
         /////////////////////////// GESTION DU POPOVER ///////////////////////////

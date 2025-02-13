@@ -16,7 +16,8 @@
         <m:content>
             <m:HBox width="100%" class="sapUiMediumMarginTop">
                 <m:VBox width="30%" class="sapUiMediumMarginBeginEnd">
-                    <m:List headerText="{i18n>mdt.tit}" headerLevel="H5" items="{path: 'MdtStatus>MdtAttachListSet'}">
+                    <m:List headerText="{i18n>mdt.tit}" headerLevel="H5" items="{path: 'MdtStatus>MdtAttachListSet'}"
+                    noDataText="{i18n>attch.bugrp}">
                         <m:StandardListItem title="{MdtStatus>Description}" />
                     </m:List>
                 </m:VBox>
@@ -37,7 +38,9 @@
                         </toolbar>
                         <items>
                             <UploadSetItem id="UpSetItem.ext" fileName="{Filename}" mediaType="{Mimetype}"
-                                enabledEdit="false" visibleEdit="false" url="{Filename}" openPressed="onFilePressed">
+                                enabledEdit="false" visibleEdit="false" url="{Filename}" openPressed="onFilePressed"
+                                visibleRemove="{DeleteFlag}">
+                                <!-- visibleRemove="{CdagUpd}" -->
                                 <statuses>
                                     <m:ObjectStatus id="UpSetStatus.ext" title="{Type}" text="{TypeDesc}" />
                                 </statuses>
