@@ -49,7 +49,7 @@ sap.ui.define([
                 this.getModel().metadataLoaded().then(() => {
                     let sKey = this.getModel().createKey("/MdtAttachStatusSet", {
                         SourceId: SourceId,
-                        ProcessId: ProcessId                        
+                        ProcessId: ProcessId
                     });
                     this.getModel().invalidateEntry(sKey);
 
@@ -128,7 +128,7 @@ sap.ui.define([
 
             oHeaderItem.addHeaderField(new sap.ui.core.Item({
                 key: "slug",
-                text: oGuid + "@" + oData.MasterDataChangeProcess + "@" + oData.MDChgProcessSrceObject + "@" + oTypeKey + "@" + oHeaderItem.getFileName()
+                text: oGuid + "@" + oData.MasterDataChangeProcess + "@" + oData.MDChgProcessSrceObject + "@" + oTypeKey + "@" + oHeaderItem.getFileName() + "@APPROVER"
             }));
             oHeaderItem.addHeaderField(new sap.ui.core.Item({
                 key: "x-csrf-token",

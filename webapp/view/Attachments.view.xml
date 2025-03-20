@@ -18,7 +18,7 @@
                 <m:VBox width="30%" class="sapUiMediumMarginBeginEnd">
                     <m:List headerText="{i18n>mdt.tit}" headerLevel="H5" items="{path: 'MdtStatus>MdtAttachListSet'}"
                     noDataText="{i18n>attch.bugrp}">
-                        <m:StandardListItem title="{MdtStatus>Description}" />
+                        <m:StandardListItem title="{MdtStatus>Type} - {MdtStatus>Description}" />
                     </m:List>
                 </m:VBox>
                 <m:VBox width="50%" class="sapUiMediumMarginBeginEnd">
@@ -32,7 +32,7 @@
                                 <m:Title id="UpSetTit.ext" text="{i18n>det.tit}" level="H2" />
                                 <m:ToolbarSpacer id="UpSetSpacer.ext" />
                                 <m:ComboBox id="ComboType.ext" items="{path: '/FileTypeSet'}" change="onSelectTypeExt">
-                                    <core:Item id="ComboItem.ext" key="{Type}" text="{Description}" />
+                                    <core:Item id="ComboItem.ext" key="{Type}" text="{Type} - {Description}" />
                                 </m:ComboBox>
                             </m:OverflowToolbar>
                         </toolbar>
