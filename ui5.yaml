@@ -19,7 +19,7 @@ server:
           - scp: true
             path: /sap
             url: http://mdd.group.wan:7349/
-            destination: MDD-605_BVEYRAC
+            destination: MDG-DESTINATION-BACKEND
             client: '605'
             authenticationType: BasicAuthentication
     - name: fiori-tools-appreload
